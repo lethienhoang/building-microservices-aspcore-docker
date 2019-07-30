@@ -1,0 +1,15 @@
+FROM microsoft/aspnetcore:latest
+RUN mkdir app
+
+#Install debugger
+#This section installs the VSCode debugger in the container so 
+#we can remotely debug the application running inside the container from Visual Studio Code - 
+#more on this shortly.
+RUN apt-get update
+RUN apt-get install curl -y unzip
+RUN curl -sSL https://aka.ms/getvsdbgsh | bash /dev/stdin -v latest -l /vsdbg
+
+EXPOSE 80/tcp
+
+#Keep the debugger container on
+ENTRYPOINT ["tail", "-f", "/dev/null"]
